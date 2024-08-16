@@ -67,11 +67,18 @@ class authController extends Controller
         }else{
             return response()->json([
                 'status'=>false,
-                'message'=>'email and password not match',
+                'message'=>'Email And Password Not Matched',
             ],401);
         }
     }
     public function logout(Request $request){
+        $user = $request->user();
+        $user->tokens()->delete();
 
+        return response()->json([
+            'status'=>true,
+            'user'=>$user,
+            'message'=>'You Logged Out Successfully',
+        ],401);
     }
 }
