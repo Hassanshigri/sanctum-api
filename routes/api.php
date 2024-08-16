@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\authController;
+use App\Http\Controllers\API\PostController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,4 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('signup',[authController::class,'signup']);
 Route::post('login',[authController::class,'login']);
 
-Route::post('logout',[authController::class,'logout'])->Middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('logout', [authController::class, 'logout']);
+    Route::apiResource('posts', PostController::class);
+});
